@@ -113,7 +113,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
             array('f@example.info', 'f@example.info')
         );
     }
-    
+
     /**
      * @covers Sanitor\Sanitizer::filter
      * @dataProvider emailProvider

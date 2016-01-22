@@ -17,25 +17,25 @@
 <path fill="none" stroke="gray" d="M173.491,-16C173.491,-16 323.491,-16 323.491,-16 329.491,-16 335.491,-22 335.491,-28 335.491,-28 335.491,-238 335.491,-238 335.491,-244 329.491,-250 323.491,-250 323.491,-250 173.491,-250 173.491,-250 167.491,-250 161.491,-244 161.491,-238 161.491,-238 161.491,-28 161.491,-28 161.491,-22 167.491,-16 173.491,-16"/>
 <text text-anchor="middle" x="248.491" y="-237.2" font-family="Times,serif" font-size="11.00" fill="gray">Sanitor</text>
 </g>
-<!-- \\Sanitor\\Sanitizer -->
-<g id="node1" class="node"><title>\\Sanitor\\Sanitizer</title>
-<polygon fill="none" stroke="black" points="286.991,-222 209.991,-222 209.991,-186 286.991,-186 286.991,-222"/>
-<text text-anchor="middle" x="248.491" y="-201.2" font-family="Courier,monospace" font-size="11.00">Sanitizer</text>
-</g>
 <!-- \\Sanitor\\SanitizationException -->
-<g id="node2" class="node"><title>\\Sanitor\\SanitizationException</title>
-<polygon fill="none" stroke="black" points="327.491,-168 169.491,-168 169.491,-132 327.491,-132 327.491,-168"/>
-<text text-anchor="middle" x="248.491" y="-147.2" font-family="Courier,monospace" font-size="11.00">SanitizationException</text>
+<g id="node1" class="node"><title>\\Sanitor\\SanitizationException</title>
+<polygon fill="none" stroke="black" points="327.491,-222 169.491,-222 169.491,-186 327.491,-186 327.491,-222"/>
+<text text-anchor="middle" x="248.491" y="-201.2" font-family="Courier,monospace" font-size="11.00">SanitizationException</text>
 </g>
 <!-- \\Exception -->
 <g id="node5" class="node"><title>\\Exception</title>
-<ellipse fill="none" stroke="black" cx="48.7457" cy="-150" rx="48.9926" ry="18"/>
-<text text-anchor="middle" x="48.7457" y="-146.3" font-family="Times,serif" font-size="14.00" fill="gray">\Exception</text>
+<ellipse fill="none" stroke="black" cx="48.7457" cy="-204" rx="48.9926" ry="18"/>
+<text text-anchor="middle" x="48.7457" y="-200.3" font-family="Times,serif" font-size="14.00" fill="gray">\Exception</text>
 </g>
 <!-- \\Sanitor\\SanitizationException&#45;&gt;\\Exception -->
 <g id="edge1" class="edge"><title>\\Sanitor\\SanitizationException&#45;&gt;\\Exception</title>
-<path fill="none" stroke="black" d="M169.337,-150C148.839,-150 127.097,-150 107.853,-150"/>
-<polygon fill="none" stroke="black" points="107.741,-146.5 97.7406,-150 107.741,-153.5 107.741,-146.5"/>
+<path fill="none" stroke="black" d="M169.337,-204C148.839,-204 127.097,-204 107.853,-204"/>
+<polygon fill="none" stroke="black" points="107.741,-200.5 97.7406,-204 107.741,-207.5 107.741,-200.5"/>
+</g>
+<!-- \\Sanitor\\Sanitizer -->
+<g id="node2" class="node"><title>\\Sanitor\\Sanitizer</title>
+<polygon fill="none" stroke="black" points="286.991,-168 209.991,-168 209.991,-132 286.991,-132 286.991,-168"/>
+<text text-anchor="middle" x="248.491" y="-147.2" font-family="Courier,monospace" font-size="11.00">Sanitizer</text>
 </g>
 <!-- \\Sanitor\\SanitizableInterface -->
 <g id="node3" class="node"><title>\\Sanitor\\SanitizableInterface</title>
