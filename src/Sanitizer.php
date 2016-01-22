@@ -304,5 +304,36 @@ class Sanitizer {
         }
         
         return $this->filter($_REQUEST[$variableName]);
-    }        
+    }
+    
+    /**
+     * Wrapper for filter_has_var()
+     * 
+     * Returns whether a variable exists
+     * 
+     * @param int $type INPUT_POST, INPUT_GET, INPUT_COOKIE, INPUT_SERVER, INPUT_ENV, INPUT_REQUEST or INPUT_SESSION
+     * @param string $variableName
+     * @return boolean
+     * @throws \Exception
+     */
+    public function filterHas($type, $variableName) {
+        if(!is_string($variableName)) {
+            throw new \Exception('Variable name expected as string');
+        }
+        
+        switch($type) {
+            case INPUT_COOKIE:
+            case INPUT_ENV:
+            case INPUT_GET:
+            case INPUT_POST:
+            case INPUT_SERVER:
+                return filter_has_var($type, $variableName);
+            case INPUT_REQUEST:
+                return isset($_REQUEST[$variableName]);
+            case INPUT_SESSION:
+                return isset($_SESSION) && isset($_SESSION[$variableName]);
+            default:
+                throw new \Exception('Illegal type. INPUT_-constant expected.');
+        }
+    }
 }
