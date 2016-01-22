@@ -23,13 +23,13 @@ validation filter. It will not work as expected.
  * Example 1: Using filter()
  */
 $value = 'mail@benedictroeser.de';
-$sanitizer = new Sanitizer(FILTER_SANITIZE_EMAIL);
-$sanitizedValue = $sanitizer->filter();
+$sanitizer = new Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
+$sanitizedValue = $sanitizer->filter($value);
 
 /*
  * Example 2: Using filterPost()
  */
-$sanitizer = new Sanitizer(FILTER_SANITIZE_EMAIL);
+$sanitizer = new Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
 $email = $sanitizer->filterPost('email');
 ```
 
