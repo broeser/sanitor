@@ -39,6 +39,8 @@ interface SanitizableInterface {
     /**
      * Returns the unffiltered value of this
      * 
+     * !!! Do not display or store this value anywhere !!!
+     * 
      * @return mixed
      * @throws exceptions\Flow
      */
