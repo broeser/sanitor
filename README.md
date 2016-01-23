@@ -33,9 +33,11 @@ $sanitizer = new Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
 $email = $sanitizer->filterPost('email');
 ```
 
-It is up to you, how much of the Sanitor-package you use. If you'd like to also
-sanitize objects, just let their class implement SanitizableInterface and use
-the SanitizableTrait within them:
+If you'd like to sanitize objects, just let their class implement 
+SanitizableInterface and use the SanitizableTrait within them. You have to 
+implement **getRawValue()** to return the "raw", unfiltered value of your 
+object and **getSanitizer()** to return the Sanitizer-class that shall be used 
+to filter this value:
 
 ```PHP
 <?php
@@ -63,6 +65,7 @@ $myFilteredEmail = $myEmail->getFilteredValue();
 ## List of important public methods
 
 - **filter**($v) – corresponds to filter_var($v)
+- **filterHas($type, $y)** – enhanced version of filter_has_var($type, $y)
 - **filterPost**($x) – corresponds to filter_input(INPUT_POST, $x)
 - **filterGet**($x) – corresponds to filter_input(INPUT_GET, $x)
 - **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
