@@ -1,10 +1,11 @@
-# sanitor
+# Sanitor
 Sanitor is a thin wrapper around PHP's sanitization functions filter_…
 
 ## Goals
 
 - Sanitor should be easy to use and easy to learn
-- Sanitor should never implement its own fancy filters but just expose PHP's built-in functions in OOP-style
+- Sanitor should never implement its own fancy filters but just expose PHP's 
+  built-in functions in OOP-style
 
 ## Installation
 
