@@ -18,6 +18,8 @@ composer require broeser/sanitor
 **IMPORTANT:** Sanitor does only sanitization – never try to use it as a
 validation filter. It will not work as expected.
 
+### Basic usage _with filter(), filterGet(), filterPost(), filterRequest(), filterCookie() etc._
+
 ```PHP
 <?php
 /*
@@ -33,6 +35,33 @@ $sanitizedValue = $sanitizer->filter($value);
 $sanitizer = new Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
 $email = $sanitizer->filterPost('email');
 ```
+
+The constructor takes the filter as first argument and, optionally, flags as
+second argument. The FILTER_NULL_ON_FAILURE-flag, that is used internally is 
+always set by default, so you don't have to set it.
+
+List of important public methods of **Sanitizer**:
+
+- **filter**($v) – corresponds to filter_var($v)
+- **filterHas($type, $y)** – enhanced version of filter_has_var($type, $y)
+- **filterPost**($x) – corresponds to filter_input(INPUT_POST, $x)
+- **filterGet**($x) – corresponds to filter_input(INPUT_GET, $x)
+- **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
+- **filterEnv**($x) – corresponds to filter_input(INPUT_ENV, $x)
+- **filterSession**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_SESSION
+- **filterRequest**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_REQUEST
+
+If something went wrong while trying to filter, a **SanitizationException** is 
+thrown. If anything else fails (e.g. a parameter was given in a different format
+than expected, a normal \Exception is thrown.
+
+### Changing the filter or flag
+
+While usefulness might be debateable, you can change the filter and flags of an
+existing Sanitizer with the **setSanitizeFilter()**, **setSanitizeFlags()** and
+**addSanitizeFlag()**-methods.
+
+### Sanitize objects _with SanitizableInterface and SanitizableTrait or AbstractSanitizable_
 
 If you'd like to sanitize objects, just let their class implement 
 SanitizableInterface and use the SanitizableTrait within them. You have to 
@@ -68,16 +97,7 @@ uses SanitizableTrait. It already contains a getSanitizer()-method returning
 $this->sanitizer, make sure to set it somewhere or override the method.
 
 
-## List of important public methods
 
-- **filter**($v) – corresponds to filter_var($v)
-- **filterHas($type, $y)** – enhanced version of filter_has_var($type, $y)
-- **filterPost**($x) – corresponds to filter_input(INPUT_POST, $x)
-- **filterGet**($x) – corresponds to filter_input(INPUT_GET, $x)
-- **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
-- **filterEnv**($x) – corresponds to filter_input(INPUT_ENV, $x)
-- **filterSession**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_SESSION
-- **filterRequest**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_REQUEST
 
 ## Sanitor?
 
