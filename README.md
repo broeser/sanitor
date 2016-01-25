@@ -1,6 +1,11 @@
 # Sanitor
 Sanitor is a thin wrapper around PHP's sanitization functions filter_…
 
+[![Build Status](https://travis-ci.org/broeser/sanitor.svg?branch=master)](https://travis-ci.org/broeser/sanitor)
+[![codecov.io](https://codecov.io/github/broeser/sanitor/coverage.svg?branch=master)](https://codecov.io/github/broeser/sanitor?branch=master)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+
+
 ## Goals
 
 - Sanitor should be easy to use and easy to learn
@@ -96,7 +101,12 @@ In case you prefer extending an abstract class, you can use
 uses SanitizableTrait. It already contains a getSanitizer()-method returning 
 $this->sanitizer, make sure to set it somewhere or override the method.
 
+## Contributing?
 
+Yes, please!
+
+Please note that this project is released with a Contributor Code of Conduct. 
+By participating in this project you agree to abide by its terms.
 
 
 ## Sanitor?
