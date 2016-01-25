@@ -62,6 +62,11 @@ $myFilteredEmail = $myEmail->getFilteredValue();
 
 ```
 
+In case you prefer extending an abstract class, you can use 
+**AbstractSanitizable**. That class (partly) implements SanitizableInterface and
+uses SanitizableTrait. It already contains a getSanitizer()-method returning 
+$this->sanitizer, make sure to set it somewhere or override the method.
+
 
 ## List of important public methods
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -22,26 +23,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Sanitor;
 
-
 /**
- * A helpful trait if you want to sanitize objects
+ * Description of Sanitizable
  *
  * @author Benedict Roeser <b-roeser@gmx.net>
  */
-trait SanitizableTrait {    
+abstract class AbstractSanitizable implements SanitizableInterface {
+    use SanitizableTrait;
+    
     /**
-     * Returns the filtered value of this
+     * The Sanitizer assigned to this
      * 
-     * @return mixed
-     * @throws Exception
+     * @var Sanitizer
      */
-    public function getFilteredValue() {
-        if(!$this->getSanitizer() instanceof Sanitizer) {
-            throw new Exception('You have to assign a sanitizer first!');
-        }
-        
-        return $this->getSanitizer()->filter($this->getRawValue());
-    }
+    protected $sanitizer;
+    
+    /**
+     * Returns the Sanitizer assigned to this
+     * 
+     * @return Sanitizer
+     */
+    public function getSanitizer() {
+        return $this->sanitizer;
+    }        
 }
