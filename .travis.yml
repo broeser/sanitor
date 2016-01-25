@@ -6,3 +6,7 @@ php:
   - '7.0'
 install: composer install
 script: phpunit --bootstrap test/bootstrap.php --configuration test/configuration.xml test
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov
