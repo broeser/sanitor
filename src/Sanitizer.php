@@ -63,14 +63,6 @@ class Sanitizer {
     public function __construct($filter, $flags = null) {
         $this->setSanitizeFilter($filter);
         $this->setSanitizeFlags($flags);
-        
-        /*
-         * NULL is used internally for "something went wrong" while filtering
-         * 
-         * This is better than false, because you might want to filter boolean
-         * values
-         */
-        $this->addSanitizeFlag(FILTER_NULL_ON_FAILURE);
     }
     
     /**
@@ -134,6 +126,14 @@ class Sanitizer {
      */
     public function setSanitizeFlags($flags) {
         $this->sanitizeFlags = $flags;
+                
+        /*
+         * NULL is used internally for "something went wrong" while filtering
+         * 
+         * This is better than false, because you might want to filter boolean
+         * values
+         */
+        $this->addSanitizeFlag(FILTER_NULL_ON_FAILURE);
     }
     
     /**
