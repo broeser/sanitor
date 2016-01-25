@@ -10,3 +10,5 @@ before_install:
   - pip install --user codecov
 after_success:
   - codecov
+notifications:
+  email: false
