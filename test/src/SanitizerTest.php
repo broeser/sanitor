@@ -69,7 +69,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
         $this->object->setSanitizeFilter(FILTER_UNSAFE_RAW);
         $this->assertEquals($testValue, $this->object->filter($testValue));
         $this->object->setSanitizeFlags(FILTER_FLAG_ENCODE_AMP);
-        $this->assertEquals('f&amp;9', $this->object->filter($testValue));
+        $this->assertEquals('f&#38;9', $this->object->filter($testValue));
         $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
     }
 
@@ -79,9 +79,9 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     public function testAddSanitizeFlag() {
         $this->assertEquals(FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
         $this->object->addSanitizeFlag(FILTER_FLAG_ENCODE_AMP);
-        $this->assertEquals(FILTER_FLAG_ENCODE_AMP, $this->object->getSanitizeFlags());
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
         $this->object->addSanitizeFlag(FILTER_FLAG_STRIP_LOW);
-        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_FLAG_STRIP_LOW, $this->object->getSanitizeFlags());
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_FLAG_STRIP_LOW|FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
     }
 
     /**
