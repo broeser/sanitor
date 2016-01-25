@@ -51,6 +51,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::setSanitizeFilter
+     * @covers Sanitor\Sanitizer::findFilter
      */
     public function testSetSanitizeFilter() {
         $testValue = 'f9';
@@ -70,7 +71,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($testValue, $this->object->filter($testValue));
         $this->object->setSanitizeFlags(FILTER_FLAG_ENCODE_AMP);
         $this->assertEquals('f&#38;9', $this->object->filter($testValue));
-        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP | FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
     }
 
     /**
@@ -79,9 +80,9 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     public function testAddSanitizeFlag() {
         $this->assertEquals(FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
         $this->object->addSanitizeFlag(FILTER_FLAG_ENCODE_AMP);
-        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP | FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
         $this->object->addSanitizeFlag(FILTER_FLAG_STRIP_LOW);
-        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_FLAG_STRIP_LOW|FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP | FILTER_FLAG_STRIP_LOW | FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
     }
 
     /**
@@ -106,6 +107,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filter
+     * @covers Sanitor\Sanitizer::checkSanitizedValue
      * @dataProvider emailProvider
      * @param string $rawValue
      * @param string $expectedFilteredValue
@@ -115,7 +117,49 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Sanitor\Sanitizer::filterHas
+     * @todo   fix this test
+     */
+    public function testFilterHas() {
+        $this->markTestIncomplete(
+                'I probably need a curl call for this'
+        );
+        
+        $exceptionOkay = false;
+        try {
+            $this->object->filterHas(INPUT_GET, array());
+        } catch (\Exception $ex) {
+            $exceptionOkay = true;
+        }
+        
+        if(!$exceptionOkay) {
+            $this->fail('Exception on illegal variable name is not thrown');
+        }
+        
+        $exceptionOkay = false;
+        try {
+            $this->object->filterHas('abc', 'mail');
+        } catch (\Exception $ex) {
+            $exceptionOkay = true;
+        }
+        
+        if(!$exceptionOkay) {
+            $this->fail('Exception on illegal INPUT_-type not thrown');
+        }
+        
+        $this->assertTrue($this->object->filterHas(INPUT_REQUEST, 'mail'));
+        $this->assertFalse($this->object->filterHas(INPUT_GET, 'username'));
+        $this->assertTrue($this->object->filterHas(INPUT_POST, 'anothermailfield'));
+        $this->assertFalse($this->object->filterHas(INPUT_SESSION, 'abcdefg'));
+        $this->assertFalse($this->object->filterHas(INPUT_SERVER, 'abcdefg'));
+        $this->assertFalse($this->object->filterHas(INPUT_ENV, 'abcdefg'));
+        
+        
+    }
+    
+    /**
      * @covers Sanitor\Sanitizer::filterPost
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterPost().
      */
     public function testFilterPost() {
@@ -127,6 +171,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterGet
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterGet().
      */
     public function testFilterGet() {
@@ -138,6 +183,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterCookie
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterCookie().
      */
     public function testFilterCookie() {
@@ -149,6 +195,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterServer
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterServer().
      */
     public function testFilterServer() {
@@ -160,6 +207,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterEnv
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterEnv().
      */
     public function testFilterEnv() {
@@ -171,6 +219,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterSession
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterSession().
      */
     public function testFilterSession() {
@@ -182,6 +231,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterRequest
+     * @covers Sanitor\Sanitizer::filterInput
      * @todo   Implement testFilterRequest().
      */
     public function testFilterRequest() {
