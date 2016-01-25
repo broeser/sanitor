@@ -3,7 +3,7 @@ Sanitor is a thin wrapper around PHP's sanitization functions filter_…
 
 [![Build Status](https://travis-ci.org/broeser/sanitor.svg?branch=master)](https://travis-ci.org/broeser/sanitor)
 [![codecov.io](https://codecov.io/github/broeser/sanitor/coverage.svg?branch=master)](https://codecov.io/github/broeser/sanitor?branch=master)
-[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://mit-license.org)
 [![SemVer 2.0.0](https://img.shields.io/badge/semver-2.0.0-blue.svg)](http://semver.org/spec/v2.0.0.html)
 
 Latest stable version: 1.0.0
