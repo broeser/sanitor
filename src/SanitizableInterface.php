@@ -37,7 +37,7 @@ interface SanitizableInterface {
     public function getFilteredValue();
     
     /**
-     * Returns the unffiltered value of this
+     * Returns the unfiltered value of this
      * 
      * !!! Do not display or store this value anywhere !!!
      * 
