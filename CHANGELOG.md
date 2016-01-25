@@ -8,8 +8,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   for INPUT_SESSION and INPUT_REQUEST
 - **AbstractSanitizable**-class, that can be extended. Provides similar
   functionality as SanitizableTrait in combination with SanitizableInterface
-- Builds are now tested by Travis CI
-- Added CHANGELOG and CODE_OF_CONDUCT
+- Builds are now automatically tested by Travis CI
+- Added CHANGELOG, CONTRIBUTING document and CODE_OF_CONDUCT
 
 ### Fixed
 - **setSanitizeFlags()** did not work without explicitely specifying 
