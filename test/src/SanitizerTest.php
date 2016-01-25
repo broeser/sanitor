@@ -30,68 +30,58 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::getSanitizeFilter
-     * @todo   Implement testGetSanitizeFilter().
      */
     public function testGetSanitizeFilter() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals(FILTER_SANITIZE_EMAIL, $this->object->getSanitizeFilter());
     }
 
     /**
      * @covers Sanitor\Sanitizer::getSanitizeFilterName
-     * @todo   Implement testGetSanitizeFilterName().
      */
     public function testGetSanitizeFilterName() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals('email', $this->object->getSanitizeFilterName());
     }
 
     /**
      * @covers Sanitor\Sanitizer::getSanitizeFlags
-     * @todo   Implement testGetSanitizeFlags().
      */
     public function testGetSanitizeFlags() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertNull($this->object->getSanitizeFlags());
     }
 
     /**
      * @covers Sanitor\Sanitizer::setSanitizeFilter
-     * @todo   Implement testSetSanitizeFilter().
      */
     public function testSetSanitizeFilter() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $testValue = 'f9';
+        $this->assertEquals($testValue, $this->object->filter($testValue));
+        $this->object->setSanitizeFilter(FILTER_SANITIZE_NUMBER_INT);
+        $this->assertEquals(9, $this->object->filter($testValue));
+        $this->assertEquals(FILTER_SANITIZE_NUMBER_INT, $this->object->getSanitizeFilter());
+        $this->assertNull($this->object->getSanitizeFlags());
     }
 
     /**
      * @covers Sanitor\Sanitizer::setSanitizeFlags
-     * @todo   Implement testSetSanitizeFlags().
      */
     public function testSetSanitizeFlags() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $testValue = 'f&9';
+        $this->object->setSanitizeFilter(FILTER_UNSAFE_RAW);
+        $this->assertEquals($testValue, $this->object->filter($testValue));
+        $this->object->setSanitizeFlags(FILTER_FLAG_ENCODE_AMP);
+        $this->assertEquals('f&amp;9', $this->object->filter($testValue));
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP, $this->object->getSanitizeFlags());
     }
 
     /**
      * @covers Sanitor\Sanitizer::addSanitizeFlag
-     * @todo   Implement testAddSanitizeFlag().
      */
     public function testAddSanitizeFlag() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertNull($this->object->getSanitizeFlags());
+        $this->object->addSanitizeFlag(FILTER_FLAG_ENCODE_AMP);
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP, $this->object->getSanitizeFlags());
+        $this->object->addSanitizeFlag(FILTER_FLAG_STRIP_LOW);
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP|FILTER_FLAG_STRIP_LOW, $this->object->getSanitizeFlags());
     }
 
     /**
@@ -108,7 +98,7 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
             array(false, false),
             array(null, null),
             array(42, 42),
-            array('mail@benedictroeser.de', 'mail@benedictroeser.de'),
+            array('mail@benedict\roeser.de', 'mail@benedictroeser.de'),
             array('valid.mail@example.org', 'valid.mail@example.org'),
             array('f@example.info', 'f@example.info')
         );
