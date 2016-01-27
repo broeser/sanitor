@@ -60,6 +60,14 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(9, $this->object->filter($testValue));
         $this->assertEquals(FILTER_SANITIZE_NUMBER_INT, $this->object->getSanitizeFilter());
         $this->assertEquals(FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
+        
+        try {
+            $this->object->setSanitizeFilter('foobar');
+        } catch (\Exception $ex) {
+            return;
+        }
+        
+        $this->fail('Exception was not thrown on invalid filter');
     }
 
     /**
