@@ -168,25 +168,47 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Sanitor\Sanitizer::filterPost
      * @covers Sanitor\Sanitizer::filterInput
-     * @todo   Implement testFilterPost().
+     * @covers Sanitor\Sanitizer::filterRequest
      */
     public function testFilterPost() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       $curl = curl_init('localhost:8080/index.php');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('email' => 'mail@benedict\roeser.de'));
+        $output = curl_exec($curl);
+        curl_close($curl);
+        $output = json_decode($output);
+        if(!is_array($output)) {
+            throw new \Exception('Invalid JSON data');
+        }
+        $this->assertEquals('mail@benedictroeser.de', array_shift($output));
+        $this->assertNull(array_shift($output));
+        $this->assertEquals('EXCEPTION', array_shift($output));
+        $this->assertEquals('mail@benedictroeser.de', array_shift($output));
+        $this->assertNull(array_shift($output));
+        $this->assertEquals('EXCEPTION', array_shift($output));
     }
 
     /**
      * @covers Sanitor\Sanitizer::filterGet
+     * @covers Sanitor\Sanitizer::filterRequest
      * @covers Sanitor\Sanitizer::filterInput
-     * @todo   Implement testFilterGet().
      */
     public function testFilterGet() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $curl = curl_init('localhost:8080/index.php?email='.  rawurlencode('mail@benedict\roeser.de'));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        $output = json_decode($output);
+        if(!is_array($output)) {
+            throw new \Exception('Invalid JSON data');
+        }
+        $this->assertEquals('mail@benedictroeser.de', array_shift($output));
+        $this->assertNull(array_shift($output));
+        $this->assertEquals('EXCEPTION', array_shift($output));
+        $this->assertEquals('mail@benedictroeser.de', array_shift($output));
+        $this->assertNull(array_shift($output));
+        $this->assertEquals('EXCEPTION', array_shift($output));
     }
 
     /**
@@ -236,17 +258,4 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
                 'This test has not been implemented yet.'
         );
     }
-
-    /**
-     * @covers Sanitor\Sanitizer::filterRequest
-     * @covers Sanitor\Sanitizer::filterInput
-     * @todo   Implement testFilterRequest().
-     */
-    public function testFilterRequest() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
 }
