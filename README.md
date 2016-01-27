@@ -6,7 +6,13 @@ Sanitor is a thin wrapper around PHP's sanitization functions filter_…
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://mit-license.org)
 [![SemVer 2.0.0](https://img.shields.io/badge/semver-2.0.0-blue.svg)](http://semver.org/spec/v2.0.0.html)
 
-Latest stable version: 1.0.0
+Latest stable version: 1.1.0
+
+## Why?
+
+- PHP's filter extension currently does not offer object oriented syntax, Sanitor does
+- Sanitor also supports INPUT_SESSION and INPUT_REQUEST
+- You can build sanitizable date objects with Sanitor
 
 ## Goals
 
@@ -16,7 +22,9 @@ Latest stable version: 1.0.0
 
 ## Installation
 
-The package is called broeser/sanitor and can be installed via composer:
+Sanitor works with PHP 5.4, 5.5., 5.6 and 7.0.
+
+The package can be installed via composer:
 
 ``composer require broeser/sanitor``
 
@@ -107,7 +115,9 @@ $this->sanitizer, make sure to set it somewhere or override the method.
 
 Yes, please!
 
-Please note that this project is released with a Contributor Code of Conduct. 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details and/or open an issue with your questions.
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
 By participating in this project you agree to abide by its terms.
 
 

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+
+## [1.1.0] - 2016-01-27
 ### Added
 - **filterHas()**-method, a wrapper for filter_has_var() with additional support
   for INPUT_SESSION and INPUT_REQUEST
@@ -19,5 +22,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.0] - 2016-01-22
 - Initial release
 
-[Unreleased]: https://github.com/broeser/sanitor/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/broeser/sanitor/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/broeser/sanitor/releases/tag/1.1.0
 [1.0.0]: https://github.com/broeser/sanitor/releases/tag/1.0.0
