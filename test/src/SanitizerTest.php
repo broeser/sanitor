@@ -282,9 +282,9 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
      */
     public function testFilterServer() {
         $this->object->setSanitizeFilter(FILTER_SANITIZE_URL);
-        var_dump(explode(DIRECTORY_SEPARATOR, $this->object->filterServer('PHP_SELF')));
-        var_dump(array_pop(explode(DIRECTORY_SEPARATOR, $this->object->filterServer('SCRIPT_NAME'))));
-        $this->assertEquals('phpunit', strtolower(array_pop(explode(DIRECTORY_SEPARATOR, $this->object->filterServer('PHP_SELF')))));
+        $testArr = explode(DIRECTORY_SEPARATOR, $this->object->filterServer('PHP_SELF'));
+        $phpunit = array_pop($testArr);
+        $this->assertEquals('phpunit', strtolower($phpunit));
         $this->assertNull($this->object->filterServer('abcfoo123'));
         try {
             $this->object->filterServer(42);
