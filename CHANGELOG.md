@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.1.1] - 2016-01-28
 ### Fixed
 - If by accident a string, false or null was passed to filterHas() instead of
   one of the INPUT_…-constants, silently INPUT_POST was assumed. That has now
@@ -28,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.0] - 2016-01-22
 - Initial release
 
-[Unreleased]: https://github.com/broeser/sanitor/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/broeser/sanitor/compare/1.1.1...HEAD
+[1.1.1]: https://github.com/broeser/sanitor/releases/tag/1.1.1
 [1.1.0]: https://github.com/broeser/sanitor/releases/tag/1.1.0
 [1.0.0]: https://github.com/broeser/sanitor/releases/tag/1.0.0

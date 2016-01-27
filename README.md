@@ -6,11 +6,11 @@ Sanitor is a thin wrapper around PHP's sanitization functions filter_…
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://mit-license.org)
 [![SemVer 2.0.0](https://img.shields.io/badge/semver-2.0.0-blue.svg)](http://semver.org/spec/v2.0.0.html)
 
-Latest stable version: 1.1.0
+Latest stable version: 1.1.1
 
 ## Why?
 
-- PHP's filter extension is a bit buggy, INPUT_ENV does not work probably, Sanitor can handle it
+- PHP's filter extension is a bit buggy, INPUT_ENV does not work properly, Sanitor can handle it
 - PHP's filter extension currently does not support INPUT_SESSION and INPUT_REQUEST, Sanitor does
 - PHP's filter extension does not offer object oriented syntax, Sanitor does
 - You can build sanitizable data objects with Sanitor
@@ -59,13 +59,14 @@ always set by default, so you don't have to set it.
 List of important public methods of **Sanitizer**:
 
 - **filter**($v) – corresponds to filter_var($v)
+- **filterCookie**($x) – corresponds to filter_input(INPUT_COOKIE, $x)
+- **filterEnv**($x) – an actually working alternative to filter_input(INPUT_ENV, $x)
+- **filterGet**($x) – corresponds to filter_input(INPUT_GET, $x)
 - **filterHas($type, $y)** – enhanced version of filter_has_var($type, $y)
 - **filterPost**($x) – corresponds to filter_input(INPUT_POST, $x)
-- **filterGet**($x) – corresponds to filter_input(INPUT_GET, $x)
-- **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
-- **filterEnv**($x) – an actually working alternative to filter_input(INPUT_ENV, $x)
-- **filterSession**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_SESSION
 - **filterRequest**($x) – enhancement to retrieve a filtered value from $_REQUEST
+- **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
+- **filterSession**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_SESSION
 
 If something went wrong while trying to filter, a **SanitizationException** is 
 thrown. If anything else fails (e.g. a parameter was given in a different format
