@@ -10,6 +10,10 @@ class TestSanitizable extends AbstractSanitizable {
     public function getRawValue() {
         return 'mail@benedict\roeser.de';
     }
+    
+    public function killSanitizer() {
+        $this->sanitizer = null;
+    }
 }
 
 /**
@@ -18,7 +22,7 @@ class TestSanitizable extends AbstractSanitizable {
 class AbstractSanitizableTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @var AbstractSanitizable
+     * @var TestSanitizable
      */
     protected $object;
 
@@ -50,6 +54,13 @@ class AbstractSanitizableTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGetFilteredValue() {
         $this->assertEquals('mail@benedictroeser.de', $this->object->getFilteredValue());
+        $this->object->killSanitizer();
+        try {
+            $this->object->getFilteredValue();
+        } catch (\Exception $ex) {
+            return;
+        }
+        $this->fail('Calling getFilteredValue() without setting a Sanitizer first should throw an Exception');
     }
 
 }

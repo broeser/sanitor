@@ -39,7 +39,7 @@ trait SanitizableTrait {
      */
     public function getFilteredValue() {
         if(!$this->getSanitizer() instanceof Sanitizer) {
-            throw new Exception('You have to assign a sanitizer first!');
+            throw new \Exception('You have to assign a sanitizer first!');
         }
         
         return $this->getSanitizer()->filter($this->getRawValue());
