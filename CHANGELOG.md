@@ -4,8 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Fixed
+- If by accident a string, false or null was passed to filterHas() instead of
+  one of the INPUT_…-constants, silently INPUT_POST was assumed. That has now
+  been fixed and changed to throwing an Exception
 - filterEnv() did not work at all
-- getFilteredValue() without setting a Sanitizer did now throw the correct
+- getFilteredValue() without setting a Sanitizer did not throw the correct
   Exception (namespacing typo)
 
 ## [1.1.0] - 2016-01-27

@@ -327,8 +327,8 @@ class Sanitizer {
      * @throws \Exception
      */
     public function filterHas($type, $variableName) {
-        if(!is_string($variableName)) {
-            throw new \Exception('Variable name expected as string');
+        if(!is_string($variableName) || !is_int($type)) {
+            throw new \Exception('Variable name expected as string, filter type expected as int');
         }
         
         switch($type) {

@@ -130,13 +130,25 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     public function testFilterHas() {        
         $exceptionOkay = false;
         try {
-            $this->object->filterHas(INPUT_GET, array());
+            $this->object->filterHas(\INPUT_GET, array());
         } catch (\Exception $ex) {
             $exceptionOkay = true;
         }
         
         if(!$exceptionOkay) {
             $this->fail('Exception on illegal variable name is not thrown');
+        }
+        
+        $exceptionOkay = false;
+        try {
+            $this->object->filterHas(7952, 'mail');
+        } catch (\Exception $ex) {
+            $this->assertEquals('Illegal type. INPUT_-constant expected.', $ex->getMessage());
+            $exceptionOkay = true;
+        }
+        
+        if(!$exceptionOkay) {
+            $this->fail('Exception on illegal INPUT_-type not thrown');
         }
         
         $exceptionOkay = false;
