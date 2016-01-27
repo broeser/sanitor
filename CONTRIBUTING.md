@@ -8,6 +8,10 @@ relevant channels.
 Please use a pull request for contributing. You may also open an issue to discuss
 the changes.
 
+## Development setup
+
+Make sure you have PHPUnit installed, preferably in the „Current Stable Version“.
+
 ## Guidelines
 
 Don't feel intimidated by these guidelines. Chances are that your patch will
