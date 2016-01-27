@@ -267,13 +267,17 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Sanitor\Sanitizer::filterServer
      * @covers Sanitor\Sanitizer::filterInput
-     * @todo   Implement testFilterServer().
      */
     public function testFilterServer() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->setSanitizeFilter(FILTER_SANITIZE_URL);
+        $this->assertEquals('phpunit', strtolower(array_pop(explode(DIRECTORY_SEPARATOR, $this->object->filterServer('PHP_SELF')))));
+        $this->assertNull($this->object->filterServer('abcfoo123'));
+        try {
+            $this->object->filterServer(42);
+        } catch (\Exception $ex) {
+            return;
+        }
+        $this->fail('An Exception should be thrown');
     }
 
     /**
