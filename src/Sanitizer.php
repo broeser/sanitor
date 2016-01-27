@@ -195,7 +195,7 @@ class Sanitizer {
             throw new \Exception('Variable name expected as string');
         }
         
-        if(!filter_has_var($type, $variableName)) {
+        if(!$this->filterHas($type, $variableName)) {
             return null;
         }
         
