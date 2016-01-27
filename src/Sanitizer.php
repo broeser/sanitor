@@ -259,7 +259,17 @@ class Sanitizer {
      * @return mixed
      */
     public function filterEnv($variableName) {
-        return $this->filterInput(\INPUT_ENV, $variableName);
+        if(!is_string($variableName)) {
+            throw new \Exception('Variable name expected as string');
+        }
+        
+        if(!$this->filterHas(\INPUT_ENV, $variableName)) {
+            return null;
+        }
+        
+        // Sadly INPUT_ENV is broken and does not work
+        // getenv() has to be used
+        return $this->filter(getenv($variableName));
     }
 
     /**
@@ -323,7 +333,6 @@ class Sanitizer {
         
         switch($type) {
             case INPUT_COOKIE:
-            case INPUT_ENV:
             case INPUT_GET:
             case INPUT_POST:
             case INPUT_SERVER:
@@ -332,6 +341,10 @@ class Sanitizer {
                 return isset($_REQUEST[$variableName]);
             case INPUT_SESSION:
                 return isset($_SESSION) && isset($_SESSION[$variableName]);
+            case INPUT_ENV:
+                // Sadly INPUT_ENV is broken and does not work
+                // getenv() has to be used
+                return(getenv($variableName)!==false);
             default:
                 throw new \Exception('Illegal type. INPUT_-constant expected.');
         }

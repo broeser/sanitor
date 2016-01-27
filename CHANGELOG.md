@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Fixed
+- filterEnv() did not work at all
 - getFilteredValue() without setting a Sanitizer did now throw the correct
   Exception (namespacing typo)
 

@@ -26,15 +26,12 @@
 
 /*
  * This file returns a json_encoded array of test results. It can be accessed
- * via GET or POST.
+ * via GET
  * 
- * These are the resulting array elements (all strings):
- * - mail@benedictroeser.de
- * - NULL
- * - EXCEPTION
- * - mail@benedictroeser.de
- * - NULL
- * - EXCEPTION
+ * These are the resulting array elements:
+ * - mail@benedictroeser.de (string)
+ * - null
+ * - EXCEPTION (string)
  */
 
 
@@ -49,24 +46,6 @@ switch(strtolower($_SERVER['REQUEST_METHOD'])) {
         $results[] = $sanitizer->filterGet('username');
         try {
             $exc = $sanitizer->filterGet(42);
-        } catch(\Exception $e) {
-            $exc = 'EXCEPTION';
-        }
-        $results[] = $exc;
-        $results[] = $sanitizer->filterRequest('email');        
-        $results[] = $sanitizer->filterRequest('username');
-        try {
-            $exc = $sanitizer->filterRequest(42);
-        } catch(\Exception $e) {
-            $exc = 'EXCEPTION';
-        }
-        $results[] = $exc;
-    break;
-    case 'post':
-        $results[] = $sanitizer->filterPost('email');        
-        $results[] = $sanitizer->filterPost('username');
-        try {
-            $exc = $sanitizer->filterPost(42);
         } catch(\Exception $e) {
             $exc = 'EXCEPTION';
         }

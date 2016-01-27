@@ -10,15 +10,16 @@ Latest stable version: 1.1.0
 
 ## Why?
 
-- PHP's filter extension currently does not offer object oriented syntax, Sanitor does
-- Sanitor also supports INPUT_SESSION and INPUT_REQUEST
-- You can build sanitizable date objects with Sanitor
+- PHP's filter extension is a bit buggy, INPUT_ENV does not work probably, Sanitor can handle it
+- PHP's filter extension currently does not support INPUT_SESSION and INPUT_REQUEST, Sanitor does
+- PHP's filter extension does not offer object oriented syntax, Sanitor does
+- You can build sanitizable data objects with Sanitor
 
 ## Goals
 
 - Sanitor should be easy to use and easy to learn
 - Sanitor should never implement its own fancy filters but just expose PHP's 
-  built-in functions in OOP-style
+  built-in filters in OOP-style
 
 ## Installation
 
@@ -62,9 +63,9 @@ List of important public methods of **Sanitizer**:
 - **filterPost**($x) – corresponds to filter_input(INPUT_POST, $x)
 - **filterGet**($x) – corresponds to filter_input(INPUT_GET, $x)
 - **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
-- **filterEnv**($x) – corresponds to filter_input(INPUT_ENV, $x)
+- **filterEnv**($x) – an actually working alternative to filter_input(INPUT_ENV, $x)
 - **filterSession**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_SESSION
-- **filterRequest**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_REQUEST
+- **filterRequest**($x) – enhancement to retrieve a filtered value from $_REQUEST
 
 If something went wrong while trying to filter, a **SanitizationException** is 
 thrown. If anything else fails (e.g. a parameter was given in a different format
