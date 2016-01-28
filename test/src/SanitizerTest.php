@@ -188,6 +188,21 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     }
     
     /**
+     * @covers Sanitor\Sanitizer::checkSanitizedValue
+     * @covers Sanitor\SanitizationException::__construct
+     */
+    public function testSanitizationException() {
+        $bogusSanitizer = new Sanitizer(FILTER_VALIDATE_EMAIL);
+        try {
+            $bogusSanitizer->filter('mail@benedict\roeser.de');
+        } catch (SanitizationException $ex) {
+            $this->assertStringStartsWith('Sanitization failed', $ex->getMessage());
+            return;
+        }
+        $this->fail('Expected SanitizationException was not thrown');
+    }
+    
+    /**
      * @covers Sanitor\Sanitizer::filterPost
      * @covers Sanitor\Sanitizer::filterInput
      * @covers Sanitor\Sanitizer::checkSanitizedValue
