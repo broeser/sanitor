@@ -283,14 +283,44 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @covers Sanitor\Sanitizer::filterCookie
-     * @covers Sanitor\Sanitizer::filterInput
-     * @todo   Implement testFilterCookie().
+     * @covers Sanitor\Sanitizer::checkSanitizedValue
      */
     public function testFilterCookie() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $curl = curl_init('localhost:8080/cookie.php?set=set');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        $output = json_decode($output);
+        if(!is_array($output)) {
+            throw new \Exception('Invalid JSON data');
+        }
+        $this->assertNull(array_shift($output));
+        $this->assertNull(array_shift($output));
+        $this->assertEquals('EXCEPTION', array_shift($output));
+        $curl = curl_init('localhost:8080/cookie.php');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Cookie: email='.rawurlencode('mail@benedict\roeser.de')));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        $output = json_decode($output);
+        if(!is_array($output)) {
+            throw new \Exception('Invalid JSON data');
+        }
+        $this->assertEquals('mail@benedictroeser.de', array_shift($output));
+        $this->assertNull(array_shift($output));
+        $this->assertEquals('EXCEPTION', array_shift($output));
+
+        // The rest of this method just ensures that code coverage reports are
+        // correct; This is extremely ugly, but it works
+        $_COOKIE['email'] ='mail@benedictroeser.de';
+        $this->object->filterCookie('email');
+        $this->object->filterCookie('username');
+        try {
+            $this->object->filterCookie(42);
+        } catch (\Exception $ex) {
+            return;
+        }
+        $this->fail('An Exception should be thrown');
     }
 
     /**
@@ -344,12 +374,20 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers Sanitor\Sanitizer::filterSession
      * @covers Sanitor\Sanitizer::filterInput
-     * @todo   Implement testFilterSession().
      */
     public function testFilterSession() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $_SESSION['test'] = 'session@benedict\roeser.de';
+        $this->assertEquals('session@benedictroeser.de', $this->object->filterSession('test'));
+        $this->assertNull($this->object->filterSession('toast'));
+        session_unset();
+        $this->assertNull($this->object->filterSession('test'));
+        session_destroy();
+        $this->assertNull($this->object->filterSession('test'));
+        try {
+            $this->object->filterSession(42);
+        } catch (\Exception $ex) {
+            return;
+        }
+        $this->fail('An Exception should be thrown');
     }
 }

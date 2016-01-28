@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Benedict Roeser <b-roeser@gmx.net>.
@@ -24,11 +24,32 @@
  * THE SOFTWARE.
  */
 
-/**
- * @author Benedict Roeser <b-roeser@gmx.net>
+/*
+ * This file returns a json_encoded array of test results. It can be accessed
+ * via GET
+ * 
+ * These are the resulting array elements:
+ * - mail@benedictroeser.de (string)
+ * - null
+ * - EXCEPTION (string)
  */
-// TODO: check include path
-ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../../../.composer/vendor/phpunit');
-// put your code here
-require_once __DIR__.'/../vendor/autoload.php';
-session_start();
+
+
+require_once __DIR__.'/../../vendor/autoload.php';
+if(isset($_GET['set']) && $_GET['set']==='set') {
+    setcookie('email', 'mail@benedict\roeser.de', time()+120);
+}
+
+$sanitizer = new \Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
+$results = array();
+
+$results[] = $sanitizer->filterCookie('email');        
+$results[] = $sanitizer->filterCookie('username');
+try {
+    $exc = $sanitizer->filterCookie(42);
+} catch(\Exception $e) {
+    $exc = 'EXCEPTION';
+}
+$results[] = $exc;
+        
+print(json_encode($results));
