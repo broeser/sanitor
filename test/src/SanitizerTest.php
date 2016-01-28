@@ -81,6 +81,23 @@ class SanitizerTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('f&#38;9', $this->object->filter($testValue));
         $this->assertEquals(FILTER_FLAG_ENCODE_AMP | FILTER_NULL_ON_FAILURE, $this->object->getSanitizeFlags());
     }
+    
+    /**
+     * @covers Sanitor\Sanitizer::__construct
+     */
+    public function testConstructor() {
+        $sanitizer = new Sanitizer(FILTER_UNSAFE_RAW, FILTER_FLAG_ENCODE_AMP);
+        $this->assertEquals(FILTER_UNSAFE_RAW, $sanitizer->getSanitizeFilter());
+        $this->assertEquals(FILTER_FLAG_ENCODE_AMP | FILTER_NULL_ON_FAILURE, $sanitizer->getSanitizeFlags());
+        $this->assertEquals('f&#38;9', $sanitizer->filter('f&9'));
+        
+        try {
+            new Sanitizer();
+        } catch (\Exception $ex) {
+            return;
+        }
+        $this->fails('Creating a Sanitizer without filter argument should throw an exception');
+    }
 
     /**
      * @covers Sanitor\Sanitizer::addSanitizeFlag
