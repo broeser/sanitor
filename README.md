@@ -66,7 +66,7 @@ List of important public methods of **Sanitizer**:
 - **filterPost**($x) – corresponds to filter_input(INPUT_POST, $x)
 - **filterRequest**($x) – enhancement to retrieve a filtered value from $_REQUEST
 - **filterServer**($x) – corresponds to filter_input(INPUT_SERVER, $x)
-- **filterSession**($x) – _Experimental_ – enhancement to retrieve a filtered value from $_SESSION
+- **filterSession**($x) – enhancement to retrieve a filtered value from $_SESSION
 
 If something went wrong while trying to filter, a **SanitizationException** is 
 thrown. If anything else fails (e.g. a parameter was given in a different format
