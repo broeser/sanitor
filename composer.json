@@ -1,6 +1,6 @@
 {
     "name": "broeser/sanitor",
-    "description": "Sanitor is a thin wrapper around PHPs sanitization functions filter_…",
+    "description": "Sanitor is a thin wrapper around PHPs sanitization functions filter_var, filter_input and filter_has_var",
     "keywords": ["sanitization", "filter"],
     "license": "MIT",
     "require": {
