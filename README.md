@@ -1,5 +1,5 @@
 # Sanitor
-Sanitor is a thin wrapper around PHP's sanitization functions filter_…
+Sanitor is a thin wrapper around PHP's sanitization functions filter_var, filter_input and filter_has_var.
 
 [![Build Status](https://travis-ci.org/broeser/sanitor.svg?branch=master)](https://travis-ci.org/broeser/sanitor)
 [![codecov.io](https://codecov.io/github/broeser/sanitor/coverage.svg?branch=master)](https://codecov.io/github/broeser/sanitor?branch=master)
