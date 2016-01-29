@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Sanitor by broeser</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Sanitor</h1>
+          <h2>Sanitor is a thin wrapper around PHPs sanitization functions filter_var, filter_input and filter_has_var.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/broeser/sanitor/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/broeser/sanitor/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/broeser/sanitor" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="sanitor" class="anchor" href="#sanitor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sanitor</h1>
+
+<p>Sanitor is a thin wrapper around PHP's sanitization functions filter_var, filter_input and filter_has_var.</p>
+
+<p><a href="https://travis-ci.org/broeser/sanitor"><img src="https://travis-ci.org/broeser/sanitor.svg?branch=master" alt="Build Status"></a>
+<a href="https://codecov.io/github/broeser/sanitor?branch=master"><img src="https://codecov.io/github/broeser/sanitor/coverage.svg?branch=master" alt="codecov.io"></a>
+<a href="http://mit-license.org"><img src="http://img.shields.io/:license-mit-blue.svg" alt="License"></a>
+<a href="http://semver.org/spec/v2.0.0.html"><img src="https://img.shields.io/badge/semver-2.0.0-blue.svg" alt="SemVer 2.0.0"></a></p>
+
+<p>Latest stable version: 1.1.1</p>
+
+<h2>
+<a id="why" class="anchor" href="#why" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why?</h2>
+
+<ul>
+<li>PHP's filter extension is a bit buggy, INPUT_ENV does not work properly, Sanitor can handle it</li>
+<li>PHP's filter extension currently does not support INPUT_SESSION and INPUT_REQUEST, Sanitor does</li>
+<li>PHP's filter extension does not offer object oriented syntax, Sanitor does</li>
+<li>You can build sanitizable data objects with Sanitor</li>
+</ul>
+
+<h2>
+<a id="goals" class="anchor" href="#goals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Goals</h2>
+
+<ul>
+<li>Sanitor should be easy to use and easy to learn</li>
+<li>Sanitor should never implement its own fancy filters but just expose PHP's 
+built-in filters in OOP-style</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Sanitor works with PHP 5.4, 5.5., 5.6 and 7.0.</p>
+
+<p>The package can be installed via composer:</p>
+
+<p><code>composer require broeser/sanitor</code></p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use</h2>
+
+<p><strong>IMPORTANT:</strong> Sanitor does only sanitization – never try to use it as a
+validation filter. It will not work as expected.</p>
+
+<h3>
+<a id="basic-usage-with-filter-filterget-filterpost-filterrequest-filtercookie-etc" class="anchor" href="#basic-usage-with-filter-filterget-filterpost-filterrequest-filtercookie-etc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic usage <em>with filter(), filterGet(), filterPost(), filterRequest(), filterCookie() etc.</em>
+</h3>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">/*</span></span>
+<span class="pl-s1"><span class="pl-c"> * Example 1: Using filter()</span></span>
+<span class="pl-s1"><span class="pl-c"> */</span></span>
+<span class="pl-s1"><span class="pl-smi">$value</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>mail@benedictroeser.de<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"><span class="pl-smi">$sanitizer</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Sanitor\</span><span class="pl-c1">Sanitizer</span>(<span class="pl-c1">FILTER_SANITIZE_EMAIL</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$sanitizedValue</span> <span class="pl-k">=</span> <span class="pl-smi">$sanitizer</span><span class="pl-k">-&gt;</span>filter(<span class="pl-smi">$value</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">/*</span></span>
+<span class="pl-s1"><span class="pl-c"> * Example 2: Using filterPost()</span></span>
+<span class="pl-s1"><span class="pl-c"> */</span></span>
+<span class="pl-s1"><span class="pl-smi">$sanitizer</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Sanitor\</span><span class="pl-c1">Sanitizer</span>(<span class="pl-c1">FILTER_SANITIZE_EMAIL</span>);</span>
+<span class="pl-s1"><span class="pl-smi">$email</span> <span class="pl-k">=</span> <span class="pl-smi">$sanitizer</span><span class="pl-k">-&gt;</span>filterPost(<span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>The constructor takes the filter as first argument and, optionally, flags as
+second argument. The FILTER_NULL_ON_FAILURE-flag, that is used internally is 
+always set by default, so you don't have to set it.</p>
+
+<p>List of important public methods of <strong>Sanitizer</strong>:</p>
+
+<ul>
+<li>
+<strong>filter</strong>($v) – corresponds to filter_var($v)</li>
+<li>
+<strong>filterCookie</strong>($x) – corresponds to filter_input(INPUT_COOKIE, $x)</li>
+<li>
+<strong>filterEnv</strong>($x) – an actually working alternative to filter_input(INPUT_ENV, $x)</li>
+<li>
+<strong>filterGet</strong>($x) – corresponds to filter_input(INPUT_GET, $x)</li>
+<li>
+<strong>filterHas($type, $y)</strong> – enhanced version of filter_has_var($type, $y)</li>
+<li>
+<strong>filterPost</strong>($x) – corresponds to filter_input(INPUT_POST, $x)</li>
+<li>
+<strong>filterRequest</strong>($x) – enhancement to retrieve a filtered value from $_REQUEST</li>
+<li>
+<strong>filterServer</strong>($x) – corresponds to filter_input(INPUT_SERVER, $x)</li>
+<li>
+<strong>filterSession</strong>($x) – enhancement to retrieve a filtered value from $_SESSION</li>
+</ul>
+
+<p>If something went wrong while trying to filter, a <strong>SanitizationException</strong> is 
+thrown. If anything else fails (e.g. a parameter was given in a different format
+than expected, a normal \Exception is thrown.</p>
+
+<h3>
+<a id="changing-the-filter-or-flag" class="anchor" href="#changing-the-filter-or-flag" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changing the filter or flag</h3>
+
+<p>While usefulness might be debateable, you can change the filter and flags of an
+existing Sanitizer with the <strong>setSanitizeFilter()</strong>, <strong>setSanitizeFlags()</strong> and
+<strong>addSanitizeFlag()</strong>-methods.</p>
+
+<h3>
+<a id="sanitize-objects-with-sanitizableinterface-and-sanitizabletrait-or-abstractsanitizable" class="anchor" href="#sanitize-objects-with-sanitizableinterface-and-sanitizabletrait-or-abstractsanitizable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sanitize objects <em>with SanitizableInterface and SanitizableTrait or AbstractSanitizable</em>
+</h3>
+
+<p>If you'd like to sanitize objects, just let their class implement 
+SanitizableInterface and use the SanitizableTrait within them. You have to 
+implement <strong>getRawValue()</strong> to return the "raw", unfiltered value of your 
+object and <strong>getSanitizer()</strong> to return the Sanitizer-class that shall be used 
+to filter this value:</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">/*</span></span>
+<span class="pl-s1"><span class="pl-c"> * Example 3: Using SanitizableInterface and SanitizableTrait</span></span>
+<span class="pl-s1"><span class="pl-c"> */</span></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">Email</span> <span class="pl-k">implements</span> <span class="pl-c1">Sanitor\</span><span class="pl-e">SanitizableInterface</span> {</span>
+<span class="pl-s1">   <span class="pl-k">use</span> <span class="pl-c1">Sanitor\SanitizableTrait</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">   <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getRawValue</span>() {</span>
+<span class="pl-s1">      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>mail@benedictroeser.de<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">   }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">   <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">getSanitizer</span>() {</span>
+<span class="pl-s1">      <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-c1">Sanitor\</span><span class="pl-c1">Sanitizer</span>(<span class="pl-c1">FILTER_SANITIZE_EMAIL</span>);</span>
+<span class="pl-s1">   }</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$myEmail</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Email</span>();</span>
+<span class="pl-s1"><span class="pl-smi">$myFilteredEmail</span> <span class="pl-k">=</span> <span class="pl-smi">$myEmail</span><span class="pl-k">-&gt;</span>getFilteredValue();</span>
+<span class="pl-s1"></span></pre></div>
+
+<p>In case you prefer extending an abstract class, you can use 
+<strong>AbstractSanitizable</strong>. That class (partly) implements SanitizableInterface and
+uses SanitizableTrait. It already contains a getSanitizer()-method returning 
+$this-&gt;sanitizer, make sure to set it somewhere or override the method.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing?</h2>
+
+<p>Yes, please!</p>
+
+<p>See <a href="https://github.com/broeser/sanitor/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for details and/or open an issue with your questions.</p>
+
+<p>Please note that this project is released with a <a href="https://github.com/broeser/sanitor/blob/master/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. 
+By participating in this project you agree to abide by its terms.</p>
+
+<h2>
+<a id="sanitor-1" class="anchor" href="#sanitor-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sanitor?</h2>
+
+<p>It is a pun on sanitization / sane / janitor. Probably not a good one, though.</p>
+        </section>
+
+        <footer>
+          Sanitor is maintained by <a href="https://github.com/broeser">broeser</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
