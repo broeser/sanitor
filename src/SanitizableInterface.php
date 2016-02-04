@@ -32,7 +32,7 @@ interface SanitizableInterface {
     /**
      * Returns the filtered value of this
      * 
-     * @return boolean
+     * @return mixed
      */
     public function getFilteredValue();
     
