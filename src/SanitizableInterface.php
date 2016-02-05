@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 namespace Sanitor;
+
 /**
  * Interface for everything that can be sanitized
  *

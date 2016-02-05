@@ -24,7 +24,6 @@
  */
 namespace Sanitor;
 
-
 /**
  * A helpful trait if you want to sanitize objects
  *
