@@ -1,4 +1,4 @@
-# Sanitor
+# ![Sanitor](http://broeser.github.io/sanitor/images/sanitor-logo.svg)
 Sanitor is a thin wrapper around PHP's sanitization functions filter_var, filter_input and filter_has_var.
 
 [![Build Status](https://travis-ci.org/broeser/sanitor.svg?branch=master)](https://travis-ci.org/broeser/sanitor)
