@@ -23,7 +23,6 @@ Latest stable version: 2.0.0
 
 ## Installation
 
-
 Sanitor 2.x works with PHP 8.0
 
 Sanitor 1.x is a legacy version tested with PHP 5.4, 5.5., 5.6 and 7.0.
