@@ -26,69 +26,53 @@
 
 namespace Sanitor;
 
+use UnexpectedValueException;
+
+const INPUT_SESSION = 6;
+const INPUT_REQUEST = 99;
+
+use const INPUT_COOKIE, INPUT_GET, INPUT_ENV, INPUT_POST, INPUT_SERVER;
+
 /**
  * A wrapper around PHP's filter_-functions for sanitization
- *
- * @author Benedict Roeser <b-roeser@gmx.net>
  */
 class Sanitizer {
     /**
      * ID of PHP sanitize filter that shall be used
-     * 
-     * @var integer
      */
-    protected $sanitizeFilter;
+    protected int $sanitizeFilter;
 
     /**
      * Optional filter flags supplied to the sanitizeFilter
      * Multiple flags are pipe-chained (bitwise OR): FLAG1 | FLAG2 | FLAG3 ...
-     * 
-     * @var integer
      */
-    protected $sanitizeFlags;
+    protected ?int $sanitizeFlags;
     
     /**
      * The name of the sanitization filter, useful for debugging and logging
-     * 
-     * @var string
      */
-    private $filterName;
+    private string $filterName;
     
     /**
      * Constructor
      * 
      * @param int $filter Sanitization filter
-     * @param int $flags Optional sanitization flags
+     * @param int|null $flags Optional sanitization flags
      */
-    public function __construct($filter, $flags = null) {
+    public function __construct(int $filter, int $flags = null) {
         $this->setSanitizeFilter($filter);
         $this->setSanitizeFlags($flags);
     }
-    
-    /**
-     * Returns the sanitization filter
-     * 
-     * @return int
-     */
-    public function getSanitizeFilter() {
+
+    public function getSanitizeFilter(): int {
         return $this->sanitizeFilter;
     }
-    
-    /**
-     * Returns the name of the sanitization filter
-     * 
-     * @return string
-     */
-    public function getSanitizeFilterName() {
+
+    public function getSanitizeFilterName(): string {
         return $this->filterName;
     }
-    
-    /**
-     * Returns the sanitization flags
-     * 
-     * @return int
-     */
-    public function getSanitizeFlags() {
+
+    public function getSanitizeFlags(): int {
         return $this->sanitizeFlags;
     } 
     
@@ -97,34 +81,24 @@ class Sanitizer {
      * 
      * @param int $filterId
      * @return string
-     * @throws SanitizationException
+     * @throws UnexpectedValueException
      */
-    private function findFilter($filterId) {
+    private function findFilterName(int $filterId): string {
         foreach(filter_list() as $filterName) {
             if(filter_id($filterName)===$filterId) {
                 return $filterName;
             }
         }
         
-        throw new \Exception('Could not find filter '.$filterId);
+        throw new UnexpectedValueException('Could not find filter '.$filterId);
     }
-    
-    /**
-     * Sets sanitization filter
-     * 
-     * @param int $filter
-     */
-    public function setSanitizeFilter($filter) {
-        $this->filterName = $this->findFilter($filter);        
+
+    public function setSanitizeFilter(int $filter): void {
+        $this->filterName = $this->findFilterName($filter);
         $this->sanitizeFilter = $filter;
     }
-    
-    /**
-     * Sets sanitization flags
-     * 
-     * @param int $flags
-     */
-    public function setSanitizeFlags($flags) {
+
+    public function setSanitizeFlags(?int $flags): void {
         $this->sanitizeFlags = $flags;
                 
         /*
@@ -144,26 +118,8 @@ class Sanitizer {
      * 
      * @param int $flag
      */
-    public function addSanitizeFlag($flag) {
+    public function addSanitizeFlag(int $flag): void {
         $this->sanitizeFlags |= $flag;
-    }
-    
-    /**
-     * Checks whether there is a problem with a value that has been created
-     * by one of the filter_…-methods and throws an exception in that case
-     * 
-     * Returns the value otherwise
-     * 
-     * @param mixed $sanitizedValue
-     * @return mixed
-     * @throws SanitizationException
-     */
-    private function checkSanitizedValue($sanitizedValue) {
-        if(is_null($sanitizedValue)) {
-            throw new SanitizationException('Filtering with filter '.$this->getSanitizeFilterName().' did not work');
-        }
-        
-        return $sanitizedValue;
     }
     
     /**
@@ -173,9 +129,146 @@ class Sanitizer {
      * @return mixed
      * @throws SanitizationException
      */
-    public function filter($value) {
+    public function filter(mixed $value): mixed
+    {
         return $this->checkSanitizedValue(filter_var($value, $this->sanitizeFilter, $this->sanitizeFlags));
-    } 
+    }
+
+    /**
+     * Sanitizes a POST-variable
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterPost(string $variableName): mixed
+    {
+        return $this->filterInput(INPUT_POST, $variableName);
+    }
+
+    /**
+     * Sanitizes a GET-variable
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterGet(string $variableName): mixed
+    {
+        return $this->filterInput(INPUT_GET, $variableName);
+    }
+
+    /**
+     * Sanitizes a COOKIE-variable
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterCookie(string $variableName): mixed
+    {
+        return $this->filterInput(INPUT_COOKIE, $variableName);
+    }
+
+    /**
+     * Sanitizes a SERVER-variable
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterServer(string $variableName): mixed
+    {
+        return $this->filterInput(INPUT_SERVER, $variableName);
+    }
+
+    /**
+     * Sanitizes a ENV-variable
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterEnv(string $variableName): mixed
+    {
+        if(!$this->filterHas(INPUT_ENV, $variableName)) {
+            return null;
+        }
+
+        // Sadly INPUT_ENV is broken and does not work
+        // getenv() has to be used
+        return $this->filter(getenv($variableName));
+    }
+
+    /**
+     * Sanitizes a SESSION-variable
+     *
+     * Experimental.
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterSession(string $variableName): mixed
+    {
+        if(!isset($_SESSION[$variableName])) {
+            return null;
+        }
+
+        return $this->filter($_SESSION[$variableName]);
+    }
+
+    /**
+     * Sanitizes a REQUEST-variable
+     *
+     * Experimental.
+     *
+     * Returns null, if the variable does not exist
+     *
+     * @param string $variableName
+     * @return mixed
+     * @throws SanitizationException
+     */
+    public function filterRequest(string $variableName): mixed
+    {
+        if(!isset($_REQUEST[$variableName])) {
+            return null;
+        }
+
+        return $this->filter($_REQUEST[$variableName]);
+    }
+
+    /**
+     * Wrapper for filter_has_var()
+     *
+     * Returns whether a variable exists
+     *
+     * @param int $type INPUT_POST, INPUT_GET, INPUT_COOKIE, INPUT_SERVER, INPUT_ENV, INPUT_REQUEST or INPUT_SESSION
+     * @param string $variableName
+     * @return boolean
+     * @throws UnexpectedValueException
+     */
+    public function filterHas(int $type, string $variableName): bool {
+        return match ($type) {
+            INPUT_COOKIE, INPUT_GET, INPUT_POST, INPUT_SERVER => filter_has_var($type, $variableName),
+            INPUT_REQUEST => isset($_REQUEST[$variableName]),
+            INPUT_SESSION => isset($_SESSION[$variableName]),
+            INPUT_ENV => (getenv($variableName) !== false),
+            default => throw new UnexpectedValueException('Illegal type. INPUT_-constant expected.'),
+        };
+    }
     
     /**
      * Helper.
@@ -188,165 +281,34 @@ class Sanitizer {
      * @param int $type INPUT_POST, INPUT_GET, INPUT_COOKIE, INPUT_SERVER or INPUT_ENV
      * @param string $variableName
      * @return mixed
-     * @throws \Exception
+     * @throws SanitizationException
      */
-    protected function filterInput($type, $variableName) {
-        if(!is_string($variableName)) {
-            throw new \Exception('Variable name expected as string');
-        }
-        
+    protected function filterInput(int $type, string $variableName): mixed
+    {
         if(!$this->filterHas($type, $variableName)) {
             return null;
         }
         
         return $this->checkSanitizedValue(filter_input($type, $variableName, $this->sanitizeFilter, $this->sanitizeFlags));        
     }
-    
-    /**
-     * Sanitizes a POST-variable
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
-     * @return mixed
-     */
-    public function filterPost($variableName) {
-        return $this->filterInput(\INPUT_POST, $variableName);
-    }
-    
-    /**
-     * Sanitizes a GET-variable
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
-     * @return mixed
-     */
-    public function filterGet($variableName) {
-        return $this->filterInput(\INPUT_GET, $variableName);
-    }
-        
-    /**
-     * Sanitizes a COOKIE-variable
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
-     * @return mixed
-     */
-    public function filterCookie($variableName) {
-        return $this->filterInput(\INPUT_COOKIE, $variableName);
-    }
-    
-    /**
-     * Sanitizes a SERVER-variable
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
-     * @return mixed
-     */
-    public function filterServer($variableName) {
-        return $this->filterInput(\INPUT_SERVER, $variableName);
-    }
-    
-    /**
-     * Sanitizes a ENV-variable
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
-     * @return mixed
-     */
-    public function filterEnv($variableName) {
-        if(!is_string($variableName)) {
-            throw new \Exception('Variable name expected as string');
-        }
-        
-        if(!$this->filterHas(\INPUT_ENV, $variableName)) {
-            return null;
-        }
-        
-        // Sadly INPUT_ENV is broken and does not work
-        // getenv() has to be used
-        return $this->filter(getenv($variableName));
-    }
 
     /**
-     * Sanitizes a SESSION-variable
-     * 
-     * Experimental.
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
+     * Checks whether there is a problem with a value that has been created
+     * by one of the filter_…-methods and throws an exception in that case
+     *
+     * Returns the value otherwise
+     *
+     * @param mixed $sanitizedValue
      * @return mixed
+     * @throws SanitizationException
      */
-    public function filterSession($variableName) {
-        if(!is_string($variableName)) {
-            throw new \Exception('Variable name expected as string');
+    private function checkSanitizedValue(mixed $sanitizedValue): mixed
+    {
+        if(is_null($sanitizedValue)) {
+            throw new SanitizationException('Filtering with filter ' . $this->getSanitizeFilterName() . ' did not work');
         }
-        
-        if(!isset($_SESSION[$variableName])) {
-            return null;
-        }
-        
-        return $this->filter($_SESSION[$variableName]);
-    }    
-    
-    /**
-     * Sanitizes a REQUEST-variable
-     * 
-     * Experimental.
-     * 
-     * Returns null, if the variable does not exist
-     * 
-     * @param string $variableName
-     * @return mixed
-     */
-    public function filterRequest($variableName) {
-        if(!is_string($variableName)) {
-            throw new \Exception('Variable name expected as string');
-        }
-        
-        if(!isset($_REQUEST[$variableName])) {
-            return null;
-        }
-        
-        return $this->filter($_REQUEST[$variableName]);
+
+        return $sanitizedValue;
     }
-    
-    /**
-     * Wrapper for filter_has_var()
-     * 
-     * Returns whether a variable exists
-     * 
-     * @param int $type INPUT_POST, INPUT_GET, INPUT_COOKIE, INPUT_SERVER, INPUT_ENV, INPUT_REQUEST or INPUT_SESSION
-     * @param string $variableName
-     * @return boolean
-     * @throws \Exception
-     */
-    public function filterHas($type, $variableName) {
-        if(!is_string($variableName) || !is_int($type)) {
-            throw new \Exception('Variable name expected as string, filter type expected as int');
-        }
-        
-        switch($type) {
-            case INPUT_COOKIE:
-            case INPUT_GET:
-            case INPUT_POST:
-            case INPUT_SERVER:
-                return filter_has_var($type, $variableName);
-            case INPUT_REQUEST:
-                return isset($_REQUEST[$variableName]);
-            case INPUT_SESSION:
-                return isset($_SESSION) && isset($_SESSION[$variableName]);
-            case INPUT_ENV:
-                // Sadly INPUT_ENV is broken and does not work
-                // getenv() has to be used
-                return(getenv($variableName)!==false);
-            default:
-                throw new \Exception('Illegal type. INPUT_-constant expected.');
-        }
-    }
+
 }

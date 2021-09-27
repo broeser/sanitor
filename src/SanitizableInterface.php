@@ -26,31 +26,17 @@ namespace Sanitor;
 
 /**
  * Interface for everything that can be sanitized
- *
- * @author Benedict Roeser <b-roeser@gmx.net>
  */
 interface SanitizableInterface {
-    /**
-     * Returns the filtered value of this
-     * 
-     * @return mixed
-     */
+
     public function getFilteredValue();
     
     /**
      * Returns the unfiltered value of this
      * 
      * !!! Do not display or store this value anywhere !!!
-     * 
-     * @return mixed
-     * @throws exceptions\Flow
      */
     public function getRawValue();
-    
-    /**
-     * Returns the Sanitizer assigned to this
-     * 
-     * @return Sanitizer
-     */
-    public function getSanitizer();
+
+    public function getSanitizer(): Sanitizer;
 }

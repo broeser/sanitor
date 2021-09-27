@@ -35,18 +35,15 @@
  */
 
 
+use Sanitor\Sanitizer;
+
 require_once __DIR__.'/../../vendor/autoload.php';
 
-$sanitizer = new \Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
-$results = array();
+$sanitizer = new Sanitizer(FILTER_SANITIZE_EMAIL);
+$results = [];
 
 $results[] = $sanitizer->filterEnv('FOO');
 $results[] = $sanitizer->filterEnv('username');
-try {
-    $exc = $sanitizer->filterEnv(42);
-} catch(\Exception $e) {
-    $exc = 'EXCEPTION';
-}
-$results[] = $exc;
-        
-print(json_encode($results));
+$results[] = $sanitizer->filterEnv(42);
+
+print(json_encode($results, JSON_THROW_ON_ERROR));

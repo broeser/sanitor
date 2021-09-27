@@ -35,21 +35,18 @@
  */
 
 
+use Sanitor\Sanitizer;
+
 require_once __DIR__.'/../../vendor/autoload.php';
 if(isset($_GET['set']) && $_GET['set']==='set') {
     setcookie('email', 'mail@benedict\roeser.de', time()+120);
 }
 
-$sanitizer = new \Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
-$results = array();
+$sanitizer = new Sanitizer(FILTER_SANITIZE_EMAIL);
+$results = [];
 
-$results[] = $sanitizer->filterCookie('email');        
+$results[] = $sanitizer->filterCookie('email');
 $results[] = $sanitizer->filterCookie('username');
-try {
-    $exc = $sanitizer->filterCookie(42);
-} catch(\Exception $e) {
-    $exc = 'EXCEPTION';
-}
-$results[] = $exc;
-        
-print(json_encode($results));
+$results[] = $sanitizer->filterCookie(42);
+
+print(json_encode($results, JSON_THROW_ON_ERROR));

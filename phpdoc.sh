@@ -1,7 +1,4 @@
 #!/bin/sh
 
-_script=$0
-DIR="$(dirname $_script)"
-
-phpdoc run --ansi --progressbar --directory $DIR/src --target $DIR/doc --title sanitor
-echo $DIR
+docker pull phpdoc/phpdoc
+docker run --rm -v $(pwd):/data phpdoc/phpdoc --ansi -d src -t doc --title sanitor

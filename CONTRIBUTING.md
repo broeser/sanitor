@@ -1,6 +1,6 @@
 # Contributing
 
-Currently this project is a one-person-show. I'd like very much to change that.
+Currently, this project is a one-person-show. I'd like very much to change that.
 
 Contributions are very welcome. You'll be credited in the change log or other 
 relevant channels.
@@ -34,4 +34,4 @@ about bugs. Feel free to request features, praise the software, criticise it,
 ask support questions or ask about this contributing document in an issue.
 
 If you are interested in private communication (e.g. security notices or job 
-offers), you may send me an email: mail@benedictroeser.de
+offers), you may email me: mail@benedictroeser.de

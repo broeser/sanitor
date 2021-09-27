@@ -22,7 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
-
 <!-- see http://www.phpunit.de/wiki/Documentation -->
 <!--phpunit bootstrap="/path/to/bootstrap.php"
          colors="false"
@@ -31,11 +30,10 @@ THE SOFTWARE.
          convertWarningsToExceptions="true"
          stopOnFailure="true">
 </phpunit-->
-
-<phpunit colors="false">
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-          <directory suffix=".php">../src</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../src</directory>
+    </include>
+  </coverage>
 </phpunit>

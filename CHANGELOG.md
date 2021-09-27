@@ -2,7 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.0.0] - Unreleased
+
+### Breaking Changes
+- Remove support for PHP 5 and PHP 7, base project on PHP 8.0
+- Variable name is converted to string instead of throwing an Exception on non-string values. 
+  For instance `filterGet(42)` now works and returns filtered `$_GET['42']` instead of throwing.
+
+### Changed
+- New PHPDoc documentation layout
 
 ## [1.1.1] - 2016-01-28
 ### Fixed

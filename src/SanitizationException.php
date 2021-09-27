@@ -26,20 +26,15 @@
 
 namespace Sanitor;
 
+use Exception;
+
 /**
  * Thrown whenever something could not be filtered/sanitized
  *
  * @author Benedict Roeser <b-roeser@gmx.net>
  */
-class SanitizationException extends \Exception {
-    /**
-     * Constructor
-     * 
-     * @param string $message
-     * @param int $code
-     * @param \Exception $previous
-     */
-    public function __construct($message = "", $code = 0, \Exception $previous = null) {
+class SanitizationException extends Exception {
+    public function __construct(string $message = "", int $code = 0, Exception $previous = null) {
         parent::__construct('Sanitization failed: '.$message, $code, $previous);
     }
 }

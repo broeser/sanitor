@@ -6,7 +6,7 @@ Sanitor is a thin wrapper around PHP's sanitization functions filter_var, filter
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://mit-license.org)
 [![SemVer 2.0.0](https://img.shields.io/badge/semver-2.0.0-blue.svg)](http://semver.org/spec/v2.0.0.html)
 
-Latest stable version: 1.1.1
+Latest stable version: 2.0.0
 
 ## Why?
 
@@ -23,7 +23,11 @@ Latest stable version: 1.1.1
 
 ## Installation
 
-Sanitor works with PHP 5.4, 5.5., 5.6 and 7.0.
+
+Sanitor 2.x works with PHP 8.0
+
+Sanitor 1.x is a legacy version tested with PHP 5.4, 5.5., 5.6 and 7.0.
+While untested, Sanitor 1.x should also work with PHP 7.1, 7.2, 7.3 and 7.4.
 
 The package can be installed via composer:
 

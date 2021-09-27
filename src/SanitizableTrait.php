@@ -33,14 +33,9 @@ trait SanitizableTrait {
     /**
      * Returns the filtered value of this
      * 
-     * @return mixed
-     * @throws Exception
+     * @throws SanitizationException
      */
     public function getFilteredValue() {
-        if(!$this->getSanitizer() instanceof Sanitizer) {
-            throw new \Exception('You have to assign a sanitizer first!');
-        }
-        
         return $this->getSanitizer()->filter($this->getRawValue());
     }
 }

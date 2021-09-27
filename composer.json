@@ -4,7 +4,12 @@
     "keywords": ["sanitization", "filter"],
     "license": "MIT",
     "require": {
-        "php": ">=5.4.0"
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "ext-json": "*",
+        "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {

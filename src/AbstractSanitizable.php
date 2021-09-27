@@ -26,27 +26,13 @@
 
 namespace Sanitor;
 
-/**
- * Description of Sanitizable
- *
- * @author Benedict Roeser <b-roeser@gmx.net>
- */
 abstract class AbstractSanitizable implements SanitizableInterface {
+
     use SanitizableTrait;
     
-    /**
-     * The Sanitizer assigned to this
-     * 
-     * @var Sanitizer
-     */
-    protected $sanitizer;
+    protected Sanitizer $sanitizer;
     
-    /**
-     * Returns the Sanitizer assigned to this
-     * 
-     * @return Sanitizer
-     */
-    public function getSanitizer() {
+    public function getSanitizer(): Sanitizer {
         return $this->sanitizer;
     }        
 }

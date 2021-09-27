@@ -35,29 +35,19 @@
  */
 
 
+use Sanitor\Sanitizer;
+
 require_once __DIR__.'/../../vendor/autoload.php';
 
-$sanitizer = new \Sanitor\Sanitizer(FILTER_SANITIZE_EMAIL);
-$results = array();
+$sanitizer = new Sanitizer(FILTER_SANITIZE_EMAIL);
+$results = [];
 
-switch(strtolower($_SERVER['REQUEST_METHOD'])) {
-    case 'get':
-        $results[] = $sanitizer->filterGet('email');        
-        $results[] = $sanitizer->filterGet('username');
-        try {
-            $exc = $sanitizer->filterGet(42);
-        } catch(\Exception $e) {
-            $exc = 'EXCEPTION';
-        }
-        $results[] = $exc;
-        $results[] = $sanitizer->filterRequest('email');        
-        $results[] = $sanitizer->filterRequest('username');
-        try {
-            $exc = $sanitizer->filterRequest(42);
-        } catch(\Exception $e) {
-            $exc = 'EXCEPTION';
-        }
-        $results[] = $exc;
-    break;
+if('get' === strtolower($_SERVER['REQUEST_METHOD'])) {
+    $results[] = $sanitizer->filterGet('email');
+    $results[] = $sanitizer->filterGet('username');
+    $results[] = $sanitizer->filterGet(42);
+    $results[] = $sanitizer->filterRequest('email');
+    $results[] = $sanitizer->filterRequest('username');
+    $results[] = $sanitizer->filterRequest(42);
 }
-print(json_encode($results));
+print(json_encode($results, JSON_THROW_ON_ERROR));
